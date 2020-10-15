@@ -75,7 +75,7 @@ public class TestLibrary {
   }
   
   /**
-   * This method tests if checkOut() can correctly change Availability status of corresponding Books with valid ISBN, and return
+   * This method tests if checkOut() can correctly change availability status of corresponding Books with valid ISBN, and return
    * appropriate value (true/false) to indicate whether the book is successfully checked out.
    */
   @Test
@@ -89,7 +89,7 @@ public class TestLibrary {
   }
   
   /**
-   * This method tests if checkIn() can correctly change Availability status of corresponding Books with valid ISBN, and return
+   * This method tests if checkIn() can correctly change availability status of corresponding Books with valid ISBN, and return
    * appropriate value (true/false) to indicate whether the book is successfully checked in.
    */
   @Test
