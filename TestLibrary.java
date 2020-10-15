@@ -2,6 +2,7 @@
 // Name: Yuliang Peng
 // Email: peng68@wisc.edu
 // Team: EB
+// Role: Test Engineer
 // TA: Keren Chen
 // Lecturer: Florian Heimerl
 // Notes to Grader: <optional extra notes>
