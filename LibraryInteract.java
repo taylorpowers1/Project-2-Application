@@ -21,6 +21,17 @@ public class LibraryInteract {
 	 **/
 	public static void main(String args[]) {
 		Library library = new Library();
+		LibraryData data = new LibraryData();
+		for (int i = 0; i < data.size; i++) {
+			String title = data.getBookTitle(i);
+			String bookInfo = data.getBookInfo(i);
+			String author = bookInfo.substring((bookInfo.indexOf(" ")) + 1,
+					bookInfo.indexOf("\n"));
+			String ISBN1 = bookInfo.substring((bookInfo.indexOf("ISBN")) + 6);
+			int ISBN = Integer
+					.parseInt(ISBN1.substring(0, ISBN1.indexOf("\n")));
+			library.addBook(ISBN, title, author);
+		}
 		System.out.println("Welcome to the Madison Public Library.");
 		Scanner sc = new Scanner(System.in);
 		System.out.println(
@@ -161,9 +172,6 @@ public class LibraryInteract {
 				System.out.println("\nThe book \""
 						+ library.getBook(ISBN).getTitle() + "\" has "
 						+ "successfuly been checked out.\n");
-			} else {
-				System.out.println(
-						"\nThis book is not available to check out.\n");
 			}
 		} catch (Exception e) {
 			System.out.println("\nThis book is not available to check out.\n");
@@ -188,9 +196,6 @@ public class LibraryInteract {
 				System.out.println("\nThe book \""
 						+ library.getBook(ISBN).getTitle() + "\" has "
 						+ "successfuly been checked into the libary.\n");
-			} else {
-				System.out.println(
-						"\nThe book can not be checked in because it is already in the library.\n");
 			}
 		} catch (Exception e) {
 			System.out.println(
@@ -235,7 +240,7 @@ public class LibraryInteract {
 	private static void insertBook(Library library, int ISBN, String title,
 			String author) {
 		try {
-			library.add(ISBN, title, author);
+			library.addBook(ISBN, title, author);
 			System.out.println("\nThe book \"" + title
 					+ "\" has successfully been added to the library.\n");
 		} catch (Exception e) {
@@ -252,8 +257,8 @@ public class LibraryInteract {
 	}
 
 	/**
-	 * This method prints the ISBN number, title, and author of all the books in
-	 * the library
+	 * This method prints the ISBN number, title, and author of all the books
+	 * that are a part of the library
 	 * 
 	 * @parm library The Library to print view
 	 **/
@@ -274,7 +279,7 @@ public class LibraryInteract {
 	 **/
 	private static void checkAvailability(Library library, int ISBN) {
 		try {
-			boolean available = library.checkAvailability(ISBN);
+			boolean available = library.isAvailabile(ISBN);
 			if (available) {
 				System.out.println("\nThis book is available.\n");
 			} else {
