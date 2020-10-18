@@ -142,22 +142,33 @@ public class TestLibrary {
   }
   
   /**
-   * This method tests the validity of input data.
+   * This method tests the validity of input data and the implementation of initial data in LibraryInteract
+   * class.
    */
   @Test
   void testData() {
-    LibraryData libInitial=new LibraryData();
-    bookShelf=libInitial.bookShelf;
-    if (!bookShelf.getBook(72876484).getTitle().equals("Public Finance") ||
-        !bookShelf.getBook(72876484).getAuthor().equals("Harvey S Rosen") ||
-        !bookShelf.getBook(70311366).getTitle().equals("Introduction to Manufacturing Processes") ||
-        !bookShelf.getBook(70311366).getAuthor().equals("John Schey") ||
-        !bookShelf.getBook(72398876).getTitle().equals("Managament of a Sales Force") ||
-        !bookShelf.getBook(72398876).getAuthor().equals("Rosann Spiro") ||
-        !bookShelf.getBook(72465239).getTitle().equals("Electric Machinery Fundamentals") ||
-        !bookShelf.getBook(72465239).getAuthor().equals("Stephen Chapman") ||
-        !bookShelf.getBook(72534958).getTitle().equals("Physical Chemistry") ||
-        !bookShelf.getBook(72534958).getAuthor().equals("Ira N Levine"))
+    LibraryData data=new LibraryData();
+    Library books=new Library();
+    for (int i = 0; i < data.size; i++) {
+      String title = data.getBookTitle(i);
+      String bookInfo = data.getBookInfo(i);
+      String author = bookInfo.substring((bookInfo.indexOf(" ")) + 1,
+          bookInfo.indexOf("\n"));
+      String ISBN1 = bookInfo.substring((bookInfo.indexOf("ISBN")) + 6);
+      int ISBN = Integer
+          .parseInt(ISBN1.substring(0, ISBN1.indexOf("\n")));
+      books.addBook(ISBN, title, author);
+    }
+    if (!books.getBook(72876484).getTitle().equals("Public Finance") ||
+        !books.getBook(72876484).getAuthor().equals("Harvey S Rosen") ||
+        !books.getBook(70311366).getTitle().equals("Introduction to Manufacturing Processes") ||
+        !books.getBook(70311366).getAuthor().equals("John Schey") ||
+        !books.getBook(72398876).getTitle().equals("Managament of a Sales Force") ||
+        !books.getBook(72398876).getAuthor().equals("Rosann Spiro") ||
+        !books.getBook(72465239).getTitle().equals("Electric Machinery Fundamentals") ||
+        !books.getBook(72465239).getAuthor().equals("Stephen Chapman") ||
+        !books.getBook(72534958).getTitle().equals("Physical Chemistry") ||
+        !books.getBook(72534958).getAuthor().equals("Ira N Levine"))
       fail("Initial data isn't implemented right.");
   }
 
