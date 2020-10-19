@@ -247,7 +247,7 @@ public class Library {
      * @param the ISBN of Book that is checked
      * @return true if the book is in the Library, false otherwise
      */
-    public boolean isAvailabile(int ISBN) {
+    public boolean isAvailable(int ISBN) {
       return containsBook(ISBN) && !(getBook(ISBN).checked);
     }
 
