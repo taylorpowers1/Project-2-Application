@@ -23,7 +23,7 @@ public class TestLibrary {
    * This method initializes the Library with three Books stored for each test method.
    */
   @BeforeEach
-  void addBook() {
+  public void addBook() {
     bookShelf.addBook(1234, "ABC", "CBA");
     bookShelf.addBook(3451, "CDA", "DBE");
     bookShelf.addBook(2090, "JOF", "IUGF"); 
@@ -33,13 +33,13 @@ public class TestLibrary {
    * This method tests if the overridden compareTo method in nested Book class works as expected.
    */
   @Test
-  void testBookCompareTo() {
+  public void testBookCompareTo() {
     Library.Book a=new Library.Book(1,"A","a");
     Library.Book b=new Library.Book(2,"A","a");
     Library.Book c=new Library.Book(3,"A","a");
     assertEquals(a.compareTo(b)<0, true);
     assertEquals(b.compareTo(c)<0, true);
-    assertEquals(c.compareTo(a)<0, false);
+    assertEquals(c.compareTo(a)<0, false); // ISBN value of c is supposed to be larger than that of a
   }
   
   /**
@@ -48,7 +48,7 @@ public class TestLibrary {
    * the validity of getBook() method simultaneously (as it is implemented in other getInfo methods).
    */
   @Test
-  void testGetBookInfo() {
+  public void testGetBookInfo() {
     if (!bookShelf.getBookTitle(1234).equals("ABC") ||
         !bookShelf.getBookAuthor(1234).equals("CBA") ||
         !bookShelf.getBookTitle(3451).equals("CDA") ||
@@ -56,6 +56,7 @@ public class TestLibrary {
         !bookShelf.getBookTitle(2090).equals("JOF") ||
         !bookShelf.getBookAuthor(2090).equals("IUGF"))
       fail("Method Library.getBook() doesn't work.");
+    // Testing Books the Library doesn't have
     assertEquals(bookShelf.getBook(3100),null);
     assertEquals(bookShelf.getBookTitle(3101),null);
     assertEquals(bookShelf.getBookAuthor(3102),null);
@@ -63,28 +64,29 @@ public class TestLibrary {
   
   /**
    * This method tests if added Books are marked available in the Library and are able to be checked out, and 
-   * returns false when passed with invalid parameter values (such as duplicate values). 
+   * if Library returns false when passed with invalid parameter values (such as duplicate values). 
    */
   @Test
-  void testAddAvailable() {
+  public void testAddAvailable() {
     assertEquals(bookShelf.addBook(2561, "DFE", "DEF"), true);
     assertEquals(bookShelf.addBook(7589, "CDF", "ZXY"), true);
-    assertEquals(bookShelf.addBook(2561, "DFE", "DEF"), false);
+    assertEquals(bookShelf.addBook(2561, "DFE", "DEF"), false); // Book already in the Library
     assertEquals(bookShelf.isAvailable(1234),true);
     assertEquals(bookShelf.isAvailable(3451),true);
     assertEquals(bookShelf.isAvailable(2090),true);
     assertEquals(bookShelf.isAvailable(2561),true);
     assertEquals(bookShelf.isAvailable(7589),true);
-    assertEquals(bookShelf.isAvailable(5820),false);
+    assertEquals(bookShelf.isAvailable(5820),false); // Book library doesn't have
   }
   
   /**
    * This method tests if the added Books are printed in order and are inserted into RBTree as expected.
    */
   @Test
-  void testInsertView() {
+  public void testInsertView() {
     bookShelf.addBook(7589, "CDF", "ZXY");
     bookShelf.addBook(8510, "DFE", "DEF");
+    // Book in order
     assertEquals(bookShelf.toString(), "ISBN: 2090\nTitle: JOF\nAuthor: IUGF\n\n" + 
                                        "ISBN: 1234\nTitle: ABC\nAuthor: CBA\n\n" +
                                        "ISBN: 7589\nTitle: CDF\nAuthor: ZXY\n\n" +
@@ -99,11 +101,12 @@ public class TestLibrary {
    * of Books after they are checked out).
    */
   @Test
-  void testCheckOut() {
+  public void testCheckOut() {
     assertEquals(bookShelf.checkOut(2090),true);
     assertEquals(bookShelf.isAvailable(2090),false);
     assertEquals(bookShelf.checkOut(3451),true);
     assertEquals(bookShelf.isAvailable(3451),false);
+    // Whether unavailable or non-exist Books are able to be checked out
     assertEquals(bookShelf.checkOut(2090),false);
     assertEquals(bookShelf.checkOut(3109),false);
   }
@@ -113,16 +116,16 @@ public class TestLibrary {
    * whether they are available or checked-out).
    */
   @Test
-  void testContains() {
+  public void testContains() {
     assertEquals(bookShelf.containsBook(1234),true);
     assertEquals(bookShelf.containsBook(3451),true);
     bookShelf.checkOut(2090);
-    assertEquals(bookShelf.containsBook(2090),true);
+    assertEquals(bookShelf.containsBook(2090),true); // Book still belongs to the Library
     bookShelf.checkOut(1234);
     assertEquals(bookShelf.containsBook(1234),true);
     bookShelf.checkOut(3451);
     assertEquals(bookShelf.containsBook(3451),true);
-    assertEquals(bookShelf.containsBook(5429),false);
+    assertEquals(bookShelf.containsBook(5429),false); // Book doesn't belong to the Library
   }
   
   /**
@@ -130,7 +133,7 @@ public class TestLibrary {
    * appropriate value (true/false) to indicate whether the book is successfully checked in.
    */
   @Test
-  void testCheckIn() {
+  public void testCheckIn() {
     bookShelf.checkOut(2090);
     bookShelf.checkOut(3451);
     assertEquals(bookShelf.checkIn(2090),true);
@@ -138,7 +141,7 @@ public class TestLibrary {
     assertEquals(bookShelf.checkIn(3451),true);
     assertEquals(bookShelf.isAvailable(3451),true);
     assertEquals(bookShelf.checkIn(2090),true);
-    assertEquals(bookShelf.checkOut(3109),false);
+    assertEquals(bookShelf.checkOut(3109),false); // Book not in the Library
   }
   
   /**
@@ -146,10 +149,10 @@ public class TestLibrary {
    * class.
    */
   @Test
-  void testData() {
+  public void testData() {
     LibraryData data=new LibraryData();
-    Library books=new Library();
-    for (int i = 0; i < data.size; i++) {
+    Library books=new Library(); // Creating a new Library to store default Books
+    for (int i = 0; i < data.size; i++) { // storing default Books into the Library
       String title = data.getBookTitle(i);
       String bookInfo = data.getBookInfo(i);
       String author = bookInfo.substring((bookInfo.indexOf(" ")) + 1,
